@@ -10,18 +10,16 @@
    </h4>
 </div>
 
-<div>
-	<p align="center">
-		<a href="#-objetivo">Objetivo</a> •
-		<a href="#-aplicação">Aplicação</a> •
-		<a href="#-requisitos">Requisitos</a> •
-		<a href="#-regras-do-grupo">Regras do Grupo</a> •
-		<a href="#-tecnologias">Tecnologias</a> •
-		<a href="#-referências">Referências</a> •
-		<a href="#-licença">Licença</a> •
-		<a href="#autores">Autores</a>
-	</p>
-</div>
+<p align="center">
+	<a href="#-objetivo">Objetivo</a> •
+	<a href="#-aplicação">Aplicação</a> •
+	<a href="#-requisitos">Requisitos</a> •
+	<a href="#-regras-do-grupo">Regras do Grupo</a> •
+	<a href="#-tecnologias">Tecnologias</a> •
+	<a href="#-referências">Referências</a> •
+	<a href="#-licença">Licença</a> •
+	<a href="#autores">Autores</a>
+</p>
 
 ## 🧐 Objetivo 
 
