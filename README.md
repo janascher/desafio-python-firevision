@@ -18,7 +18,7 @@
 	<a href="#-tecnologias">Tecnologias</a> •
 	<a href="#-referências">Referências</a> •
 	<a href="#-licença">Licença</a> •
-	<a href="#autores>Autores</a>
+	<a href="#autores">Autores</a>
 </p>
 
 ## 🧐 Objetivo 
