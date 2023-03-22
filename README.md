@@ -10,20 +10,22 @@
    </h4>
 </div>
 
-<p align="center">
-	<a href="#-objetivo">Objetivo</a> •
-	<a href="#-aplicação">Aplicação</a> •
-	<a href="#-requisitos">Requisitos</a> •
-	<a href="#-regras-do-grupo">Regras do Grupo</a> •
-	<a href="#-tecnologias">Tecnologias</a> •
-	<a href="#-referências">Referências</a> •
-	<a href="#-licença">Licença</a> •
-	<a href="#autores>Autores</a>
-</p>
+<div>
+	<p align="center">
+		<a href="#-objetivo">Objetivo</a> •
+		<a href="#-aplicação">Aplicação</a> •
+		<a href="#-requisitos">Requisitos</a> •
+		<a href="#-regras-do-grupo">Regras do Grupo</a> •
+		<a href="#-tecnologias">Tecnologias</a> •
+		<a href="#-referências">Referências</a> •
+		<a href="#-licença">Licença</a> •
+		<a href="#autores">Autores</a>
+	</p>
+</div>
 
 ## 🧐 Objetivo 
 
-O obhetivo do desafio é em grupo, envolvendo **Visão Computacional** e **Python** com o tema **"Olhar Digital a Segurança"**, tendo como objetivo melhorar a segurança em alguma área, tais como transporte, saúde, trabalho, entre outras.
+O objetivo do desafio é em grupo, envolvendo **Visão Computacional** e **Python** com o tema **"Olhar Digital a Segurança"**, tendo como objetivo melhorar a segurança em alguma área, tais como transporte, saúde, trabalho, entre outras.
 
 O desafio consiste em desenvolver um sistema que analise imagens e ou vídeos e detecte situações de risco ou perigo no ambiente. A ideia é que o sistema possa identificar possíveis ameaças.
 
