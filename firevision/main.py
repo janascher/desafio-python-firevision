@@ -20,6 +20,25 @@ ENCODE_METHOD: str = 'utf-8'
 
 
 class PascalVocReader:
+    """
+        Classe para leitura de arquivos no formato Pascal VOC.
+
+        Args:
+            filepath (str): Caminho para o arquivo no formato Pascal VOC.
+
+        Atributos:
+            shapes (List[Tuple[str, List[Tuple[int, int]], str, bool]]): Lista contendo as informações dos objetos
+                detectados na imagem, onde cada objeto é representado por uma tupla contendo:
+                    - rótulo (str)
+                    - lista com as coordenadas dos vértices do objeto [(x1, y1), (x2, y2), (x3, y3), (x4, y4)]
+                    - caminho da imagem (str)
+                    - dificuldade de detecção do objeto (bool)
+
+            filepath (str): Caminho para o arquivo no formato Pascal VOC.
+
+            verified (bool): Indica se o arquivo foi verificado.
+
+    """
     def __init__(self, filepath: str) -> None:
         # shapes type:
         # [labbel, [(x1,y1), (x2,y2), (x3,y3), (x4,y4)], color, color, difficult]
@@ -31,38 +50,46 @@ class PascalVocReader:
         except:
             pass
 
+    """
+        Retornar a lista shapes.
+    """
+
     def getShapes(self) -> List[Tuple[str, List[Tuple[int, int]], str, bool]]:
         return self.shapes
 
+    """
+        Adicionar uma forma à lista shapes. O método extrai as coordenadas de bndbox e as adiciona à lista de shapes.
+    """
+
     def addShape(self, label: str, bndbox: Any, filename: str, difficult: bool) -> None:
-        """Adiciona uma nova forma à lista de formas existentes.
+            """Adiciona uma nova forma à lista de formas existentes.
 
-        Args:
-            label (str): O rótulo da forma a ser adicionada.
-            bndbox (Any): Um objeto Any que contém as coordenadas da caixa delimitadora da forma a ser adicionada.
-            filename (str): O nome do arquivo ao qual a forma pertence.
-            difficult (bool): Um valor booleano que indica se a forma é difícil ou não.
+    Args:
+        label (str): O rótulo da forma a ser adicionada.
+        bndbox (Any): Um objeto Any que contém as coordenadas da caixa delimitadora da forma a ser adicionada.
+        filename (str): O nome do arquivo ao qual a forma pertence.
+        difficult (bool): Um valor booleano que indica se a forma é difícil ou não.
 
-        Returns:
-            None
+    Returns:
+        None
 
-        Raises:
-            Nenhuma exceção é gerada por esta função.
+    Raises:
+        Nenhuma exceção é gerada por esta função.
 
-        Exemplos:
-            # criando uma instância da classe e adicionando uma nova forma
-            instance = MyClass()
-            bndbox = Element('bndbox')
-            xmin = SubElement(bndbox, 'xmin')
-            xmin.text = '10'
-            ymin = SubElement(bndbox, 'ymin')
-            ymin.text = '20'
-            xmax = SubElement(bndbox, 'xmax')
-            xmax.text = '100'
-            ymax = SubElement(bndbox, 'ymax')
-            ymax.text = '200'
-            instance.addShape('retângulo', bndbox, 'imagem1.jpg', False)
-        """
+    Exemplos:
+        # criando uma instância da classe e adicionando uma nova forma
+        instance = MyClass()
+        bndbox = Element('bndbox')
+        xmin = SubElement(bndbox, 'xmin')
+        xmin.text = '10'
+        ymin = SubElement(bndbox, 'ymin')
+        ymin.text = '20'
+        xmax = SubElement(bndbox, 'xmax')
+        xmax.text = '100'
+        ymax = SubElement(bndbox, 'ymax')
+        ymax.text = '200'
+        instance.addShape('retângulo', bndbox, 'imagem1.jpg', False)
+    """
         xmin = int(bndbox.find('xmin').text)
         ymin = int(bndbox.find('ymin').text)
         xmax = int(bndbox.find('xmax').text)
@@ -96,6 +123,7 @@ class PascalVocReader:
                 difficult = bool(int(object_iter.find('difficult').text))
             self.addShape(label, bndbox, path, difficult)
         return True
+
 
 classes: Dict[str, int] = {}
 num_classes: int = 0
