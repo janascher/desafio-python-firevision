@@ -4,6 +4,7 @@ import shutil
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QPushButton, QProgressBar
 from PyQt5.QtCore import QBasicTimer
 
+
 class App(QWidget):
     def __init__(self):
         super().__init__()
@@ -29,31 +30,43 @@ class App(QWidget):
         self.show()
 
     def OpenFileDialog(self):
-
-        pathPasta = "..\\yolov5\\data\\images"
-
-        if not os.path.exists(pathPasta):
-            os.makedirs(pathPasta)
-
         filename, _ = QFileDialog.getOpenFileName(
             self, "Selecionar Arquivo", "", "Arquivos de Imagem (*.jpg *jpeg);;Arquivos de Vídeo (.mp4)")
 
-        if filename:
-            new_filename = os.path.join(
-                "..\\yolov5\\data\\images", os.path.basename(filename))  
-    
-            shutil.copy2(filename, new_filename)
-            print(f'Cópia do arquivo salvo em {new_filename}')
+        """
+            Para Windows
+        """
+    #    if filename:
+    #        new_filename = os.path.join(
+    #            "..\\yolov5\\data\\images", os.path.basename(filename))
 
-        try:     
+        """                
+            >>>> TESTAR NO WINDOWS <<<<
+            Desta forma, o código funcionará tanto para Linux quanto para Windows.
+            Verificar se foi selecionado um arquivo de imagem pelo usuário. Se sim, cria uma nova pasta "images" dentro da pasta "data" do projeto, caso ela ainda não exista. Em seguida, copia o arquivo de imagem selecionado para a nova pasta "images" e imprime a mensagem informando o local onde o arquivo foi salvo.
+        """
+        if filename:
+            data_folder = os.path.join("..", "yolov5", "data")
+            images_folder = os.path.join(data_folder, "images")
+            if not os.path.exists(images_folder):
+                os.makedirs(images_folder)
+            new_filename = os.path.join(
+                images_folder, os.path.basename(filename))
+            shutil.copy2(filename, new_filename)
+            print(f"Cópia do arquivo salvo em {new_filename}")
+
+        try:
             # Muda de diretório
-            os.chdir('../yolov5')
+            os.chdir("../yolov5")
             # Executa um comando no terminal
-            os.system('python detect.py --source data/images --weights best.pt')    
+            os.system("python detect.py --source data/images --weights best.pt")
+            # Executa o script "detect.py" indicando o caminho runs/train/exp2/weights/best.pt:
+            # os.system("python detect.py --source data/images --weights runs/train/exp2/weights/best.pt")
             print("Imagem detectada com sucesso")
 
         except Exception as e:
-            print(f'O arquivo foi criado na pasta images do yolov, porém no windows pode apresentar o erro: {e}')
+            print(
+                f"O arquivo foi criado na pasta images do yolov, porém no windows pode apresentar o erro: {e}")
 
     # def run(self, filename):
     #     self.timer = QBasicTimer()
@@ -74,7 +87,8 @@ class App(QWidget):
     #     self.step += 1
     #     self.progress.setValue(self.step)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     ex = App()
     sys.exit(app.exec_())
