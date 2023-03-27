@@ -62,34 +62,35 @@ class PascalVocReader:
     """
 
     def addShape(self, label: str, bndbox: Any, filename: str, difficult: bool) -> None:
-            """Adiciona uma nova forma à lista de formas existentes.
+        """Adiciona uma nova forma à lista de formas existentes.
 
-    Args:
-        label (str): O rótulo da forma a ser adicionada.
-        bndbox (Any): Um objeto Any que contém as coordenadas da caixa delimitadora da forma a ser adicionada.
-        filename (str): O nome do arquivo ao qual a forma pertence.
-        difficult (bool): Um valor booleano que indica se a forma é difícil ou não.
+        Args:
+            label (str): O rótulo da forma a ser adicionada.
+            bndbox (Any): Um objeto Any que contém as coordenadas da caixa delimitadora da forma a ser adicionada.
+            filename (str): O nome do arquivo ao qual a forma pertence.
+            difficult (bool): Um valor booleano que indica se a forma é difícil ou não.
 
-    Returns:
-        None
+        Returns:
+            None
 
-    Raises:
-        Nenhuma exceção é gerada por esta função.
+        Raises:
+            Nenhuma exceção é gerada por esta função.
 
-    Exemplos:
-        # criando uma instância da classe e adicionando uma nova forma
-        instance = MyClass()
-        bndbox = Element('bndbox')
-        xmin = SubElement(bndbox, 'xmin')
-        xmin.text = '10'
-        ymin = SubElement(bndbox, 'ymin')
-        ymin.text = '20'
-        xmax = SubElement(bndbox, 'xmax')
-        xmax.text = '100'
-        ymax = SubElement(bndbox, 'ymax')
-        ymax.text = '200'
-        instance.addShape('retângulo', bndbox, 'imagem1.jpg', False)
-    """
+        Exemplos:
+            # criando uma instância da classe e adicionando uma nova forma
+            instance = MyClass()
+            bndbox = Element('bndbox')
+            xmin = SubElement(bndbox, 'xmin')
+            xmin.text = '10'
+            ymin = SubElement(bndbox, 'ymin')
+            ymin.text = '20'
+            xmax = SubElement(bndbox, 'xmax')
+            xmax.text = '100'
+            ymax = SubElement(bndbox, 'ymax')
+            ymax.text = '200'
+            instance.addShape('retângulo', bndbox, 'imagem1.jpg', False)
+        """
+            
         xmin = int(bndbox.find('xmin').text)
         ymin = int(bndbox.find('ymin').text)
         xmax = int(bndbox.find('xmax').text)
