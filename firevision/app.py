@@ -29,6 +29,12 @@ class App(QWidget):
         self.show()
 
     def OpenFileDialog(self):
+
+        pathPasta = "..\\yolov5\\data\\images"
+
+        if not os.path.exists(pathPasta):
+            os.makedirs(pathPasta)
+
         filename, _ = QFileDialog.getOpenFileName(
             self, "Selecionar Arquivo", "", "Arquivos de Imagem (*.jpg *jpeg);;Arquivos de Vídeo (.mp4)")
 
