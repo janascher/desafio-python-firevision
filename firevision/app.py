@@ -28,8 +28,29 @@ class App(QWidget):
         button.clicked.connect(self.OpenFileDialog)
 
         self.show()
+    def join_files(self,input_filename, output_filename):
+    # Abre o arquivo de saída para escrita
+        with open(output_filename, 'wb') as f:
+            # Lê e grava o conteúdo de cada arquivo de entrada
+            i = 0
+            while True:
+                chunk_filename = f'{input_filename}.{i}'
+                if os.path.exists(chunk_filename):
+                    with open(chunk_filename, 'rb') as chunk_file:
+                        chunk = chunk_file.read()
+                        f.write(chunk)
+                    i += 1
+                else:
+                    break
+                
+        print(f'Os arquivos {input_filename}.* foram juntados em {output_filename}')
+
 
     def OpenFileDialog(self):
+        self.join_files("../yolov5/best.pt", "../yolov5/best.pt")
+
+
+
         filename, _ = QFileDialog.getOpenFileName(
             self, "Selecionar Arquivo", "", "Arquivos de Imagem (*.jpg *jpeg);;Arquivos de Vídeo (.mp4)")
 

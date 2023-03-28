@@ -33,7 +33,7 @@ import os
 import platform
 import sys
 from pathlib import Path
-
+from playsound import playsound
 import torch
 
 FILE = Path(__file__).resolve()
@@ -126,6 +126,7 @@ def run(
         with dt[1]:
             visualize = increment_path(save_dir / Path(path).stem, mkdir=True) if visualize else False
             pred = model(im, augment=augment, visualize=visualize)
+            
 
         # NMS
         with dt[2]:
@@ -157,6 +158,12 @@ def run(
                 # Print results
                 for c in det[:, 5].unique():
                     n = (det[:, 5] == c).sum()  # detections per class
+                    # Play sound if person is detected
+                    if n>0:
+                        try:
+                            playsound.playsound('file.mp3')
+                        except Exception as e:
+                            print(f"Erro ao reproduzir som: {str(e)}")
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
 
                 # Write results
