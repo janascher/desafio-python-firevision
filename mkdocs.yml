@@ -1,0 +1,24 @@
+site_name: Documentação FireVision
+theme:
+    name: material
+    languagem: pt-BR
+    features:
+    - navigation.footer
+extra:
+    social:
+        - icon: fontawesome/brands/github
+          link: https://github.com/janascher/desafio-python-firevision
+plugins:
+    - search:
+          lang: pt
+    - mkdocstrings:
+          handlers:
+              python:
+                  setup_commands:
+                      - import sys
+                      - sys.path.append("firevision")
+                      - sys.path.append("yolov5")
+          watch:
+              - firevision
+              - yolov5
+
