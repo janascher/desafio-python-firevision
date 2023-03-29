@@ -1,11 +1,11 @@
 """
-    Importa bibliotecas necessária:
-        - **os** para interagir com o sistema operacional;
-        - **xml.etree.ElementTree** para ler e analisar arquivos XML;
-        - **lxml.etree** para processar e analisar XMLs de forma mais eficiente;
-        - **cv2** para manipular imagens usando OpenCV;
-        - **glob** para encontrar arquivos em um diretório.
-        - **typing** fornece recursos para trabalhar com tipos de dados, anotações de tipo e geração de classes genéricas.
+    Bibliotecas necessárias:
+        - **`os`** para interagir com o sistema operacional;
+        - **`xml.etree.ElementTree`** para ler e analisar arquivos XML;
+        - **`lxml.etree`** para processar e analisar XMLs de forma mais eficiente;
+        - **`cv2`** para manipular imagens usando OpenCV;
+        - **`glob`** para encontrar arquivos em um diretório.
+        - **`typing`** fornece recursos para trabalhar com tipos de dados, anotações de tipo e geração de classes genéricas.
 """
 import os
 from xml.etree import ElementTree
@@ -18,7 +18,14 @@ ENCODE_METHOD = "utf-8"
 
 
 class PascalVocReader:
+    """
+        A classe `PascalVocReader` é responsável pela leitura de arquivos no formato Pascal VOC.
+    """
+
     def __init__(self, filepath):
+        """
+            O método `__init__()` é o construtor da classe e inicializa as variáveis necessárias, como a lista de formas (`shapes`), o caminho do arquivo (`filepath`) e uma variável booleana para verificar se o arquivo foi verificado (verified). Também chama a função `parseXML()` para fazer a análise do arquivo xml.
+        """
         self.shapes = []
         self.filepath = filepath
         self.verified = False
@@ -29,9 +36,15 @@ class PascalVocReader:
             pass
 
     def getShapes(self):
+        """
+            O método `getShapes()` retorna a lista de formas (`shapes`) encontradas no arquivo xml.
+        """
         return self.shapes
 
     def addShape(self, label, bndbox, filename, difficult):
+        """
+            O método `addShape()` é responsável por extrair informações sobre uma forma, como rótulo (`label`), coordenadas do retângulo delimitador (`bndbox`), nome do arquivo (`filename`) e se a forma é difícil de ser detectada (`difficult`), e adicioná-las à lista de formas. A partir das coordenadas do retângulo delimitador, o método calcula os pontos dos quatro vértices do retângulo e adiciona-os à lista de formas.
+        """
         xmin = int(bndbox.find("xmin").text)
         ymin = int(bndbox.find("ymin").text)
         xmax = int(bndbox.find("xmax").text)
@@ -40,6 +53,9 @@ class PascalVocReader:
         self.shapes.append((label, points, filename, difficult))
 
     def parseXML(self):
+        """
+            O método `parseXML()` é responsável por analisar o arquivo XML e extrair informações sobre cada objeto (anotação de objeto) encontrado no arquivo. Ele usa a biblioteca `ElementTree` para analisar o arquivo XML e extrair o caminho da imagem e a variável de verificação. Em seguida, itera sobre cada objeto encontrado no arquivo, extrai informações sobre a forma e chama o método addShape para adicioná-la à lista de formas.
+        """
         assert self.filepath.endswith(XML_EXT), "Unsupport file format"
         parser = etree.XMLParser(encoding=ENCODE_METHOD)
         xmltree = ElementTree.parse(self.filepath, parser=parser).getroot()
@@ -64,7 +80,14 @@ class PascalVocReader:
 
 
 class PascalVocConverter:
+    """
+        A classe `PascalVocConverter` converte anotações de objetos em imagens do formato Pascal VOC para um formato de anotação de detecção de objetos diferente. Para isso, a classe recebe o caminho dos arquivos xml com as anotações, o caminho das imagens correspondentes, o caminho de saída para os arquivos de anotação convertidos, um arquivo de texto com a lista de classes e uma extensão de arquivo (default ".jpg").
+    """
+
     def __init__(self, parentpath, addxmlpath, addimgpath, outputpath, classes_txt, ext=".jpg"):
+        """
+            O método `__init__()` é o construtor da classe e inicializa o objeto com os caminhos dos diretórios dos arquivos XML, das imagens, a pasta de saída para salvar os arquivos txt gerados, um arquivo de texto que contém os nomes das classes e uma extensão padrão .jpg.
+        """
         self.parentpath = parentpath
         self.addxmlpath = addxmlpath
         self.addimgpath = addimgpath
@@ -75,6 +98,9 @@ class PascalVocConverter:
         self.ext = ext
 
     def run(self):
+        """
+            O método `run()` realiza a conversão para o novo formato de anotação e grava os resultados em arquivos de texto separados. Cada arquivo de anotação de detecção de objeto possui uma linha para cada objeto anotado, indicando a classe do objeto e as coordenadas normalizadas do retângulo delimitador que contém o objeto na imagem. Além disso, a classe cria um arquivo de texto classes.txt contendo a lista de todas as classes detectadas nas anotações de entrada.
+        """
 
         if os.path.isfile(self.classes_txt):
             with open(self.classes_txt, "r") as f:
@@ -120,6 +146,9 @@ class PascalVocConverter:
 
 
 def main():
+    """
+        A função `main()` é o construtor da classe e inicializa o objeto com o caminho do arquivo xml a ser lido e cria algumas variáveis como uma lista vazia de formas (`shapes`) encontradas no arquivo, o caminho do arquivo e uma variável de verificação de integridade do arquivo.
+    """
     parent_path = "./"
     addxmlpath = parent_path + "data/training/annotations"
     addimgpath = parent_path + "data/training/images"
