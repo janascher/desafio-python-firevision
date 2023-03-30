@@ -11,7 +11,6 @@ import sys
 import os
 import shutil
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QPushButton, QProgressBar, QLabel
-# from PyQt5.QtCore import QBasicTimer
 from PyQt5.QtGui import QPixmap
 
 class App(QWidget):
@@ -30,11 +29,6 @@ class App(QWidget):
         self.width = 640
         self.height = 480
         self.LoadWindow()
-
-        os.system('..\\.venv\\Scripts\\activate')
-        os.system("pip install pyinstaller")
-        # os.system("pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117")
-        os.system("pip install -r ../requirements.txt")
 
     def LoadWindow(self):
         """
@@ -141,13 +135,9 @@ class App(QWidget):
             # Executa um comando no terminal
             os.system("python detect.py --source data/images --weights best.pt")
             ex.progressLoad()
-            # Executa o script "detect.py" indicando o caminho runs/train/exp2/weights/best.pt:
-            # os.system("python detect.py --source data/images --weights runs/train/exp2/weights/best.pt")
-            # ex.start_process()
             ex.setLabel()
 
         except Exception as e:
-            #print(f"Erro ao salvar arquivo: {e}")
             print(f"O arquivo foi criado na pasta images do yolov, porém no windows pode apresentar o erro: {e}")
 
 if __name__ == "__main__":
