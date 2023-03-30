@@ -161,7 +161,7 @@ def run(
                     # Play sound if person is detected
                     if n>0:
                         try:
-                            playsound.playsound('file.mp3')
+                            playsound('file.mp3')
                         except Exception as e:
                             print(f"Erro ao reproduzir som: {str(e)}")
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
