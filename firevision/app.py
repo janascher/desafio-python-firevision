@@ -6,13 +6,13 @@
         - **`PyQt5`** para criar janelas e widgets. `QApplication` é a classe principal para gerenciar a aplicação; `QWidget` é a classe base para todos os widgets em PyQt5; `QFileDialog` é usada para abrir caixas de diálogo para selecionar arquivos e pastas; `QPushButton` é um botão que pode ser clicado para executar uma ação; `QProgressBar` é uma barra de progresso que mostra o progresso de uma tarefa; `QLabel` é um rótulo que pode exibir texto e imagens;
         - **`PyQt5.QtGui`** importa a classe `QPixmap` do PyQt5, que é usada para carregar imagens.     
 """
+
 import sys
 import os
 import shutil
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QPushButton, QProgressBar, QLabel
-#from PyQt5.QtCore import QBasicTimer
+# from PyQt5.QtCore import QBasicTimer
 from PyQt5.QtGui import QPixmap
-
 
 class App(QWidget):
     """
@@ -30,6 +30,11 @@ class App(QWidget):
         self.width = 640
         self.height = 480
         self.LoadWindow()
+
+        os.system('..\\.venv\\Scripts\\activate')
+        os.system("pip install pyinstaller")
+        # os.system("pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117")
+        os.system("pip install -r ../requirements.txt")
 
     def LoadWindow(self):
         """
@@ -49,11 +54,11 @@ class App(QWidget):
         button.clicked.connect(self.OpenFileDialog)
 
         self.pixmap = QPixmap('fogo.jpeg')
-        self.label2 = QLabel('', self)
+        self.label2 = QLabel('                                                        ', self)
         self.label2.setStyleSheet('color: blue; font-size: 12px')
         self.label2.move(200, 180)
 
-        self.label = QLabel('', self)
+        self.label = QLabel('                                               ', self)
         self.label.setStyleSheet('color: green; font-size: 16px')
         self.label.move(200, 300)
 
@@ -102,10 +107,6 @@ class App(QWidget):
         """
         self.label.setText("Imagem detectada com sucesso")
 
-    # def setSelectText(self):
-    #     # self.pixmap = QPixmap("caminho_da_imagem.png")
-    #     self.label2.setText("../teste/fogo.jpg")
-
     def OpenFileDialog(self):
         """
             O método `OpenFileDialog()` é chamado quando o botão "Selecionar Arquivo" é clicado. Ele usa o método `join_files()` para juntar os arquivos de saída gerados pelo modelo YOLOv5. Em seguida, ele abre um diálogo de seleção de arquivo para que o usuário possa escolher um arquivo de imagem. Ele atualiza a barra de progresso usando o método `progressLoad()` e copia o arquivo selecionado para uma pasta específica. Ele, então, executa o modelo YOLOv5 no arquivo de imagem selecionado usando o método `os.system()`. Finalmente, ele atualiza a barra de progresso novamente e define o texto de uma label para indicar que a imagem foi detectada com sucesso.
@@ -148,26 +149,6 @@ class App(QWidget):
         except Exception as e:
             #print(f"Erro ao salvar arquivo: {e}")
             print(f"O arquivo foi criado na pasta images do yolov, porém no windows pode apresentar o erro: {e}")
-
-    # def run(self, filename):
-    #     self.timer = QBasicTimer()
-    #     self.step = 0
-
-    #     if self.timer.isActive():
-    #         return
-
-    #     self.timer.start(100, self)
-
-    #     # código para processar o arquivo selecionado
-
-    # def timerEvent(self, e):
-    #     if self.step >= 100:
-    #         self.timer.stop()
-    #         return
-
-    #     self.step += 1
-    #     self.progress.setValue(self.step)
-
 
 if __name__ == "__main__":
     """
