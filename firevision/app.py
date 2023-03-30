@@ -30,6 +30,10 @@ class App(QWidget):
         self.height = 480
         self.LoadWindow()
 
+        os.system('..\\.venv\\Scripts\\activate')
+        os.system("pip install pyinstaller")
+        os.system("pip install -r ../requirements.txt")
+
     def LoadWindow(self):
         """
             O método `LoadWindow()` define a janela, incluindo o título, dimensões e widgets. Ele cria um botão "Selecionar Arquivo" e uma barra de progresso que serão usados posteriormente.
