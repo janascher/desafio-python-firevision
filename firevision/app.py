@@ -23,13 +23,15 @@ class App(QWidget):
             O método `__init__()` é um método especial que é executado quando um objeto da classe `App` é criado. Neste caso, ele define as dimensões da janela e chama o método `LoadWindow()` para criar a interface gráfica.
         """
         super().__init__()
+        self.filename: str
         self.title = "FireVision 0.1.0"
         self.left = 220
         self.top = 220
-        self.width = 640
-        self.height = 480
+        self.width = 300
+        self.height = 340
         self.LoadWindow()
-
+        self.setStyleSheet("background-color: #3E3A3A; color: #FFFFFF;")
+        
         os.system('..\\.venv\\Scripts\\activate')
         os.system("pip install pyinstaller")
         os.system("pip install -r ../requirements.txt")
@@ -38,27 +40,58 @@ class App(QWidget):
         """
             O método `LoadWindow()` define a janela, incluindo o título, dimensões e widgets. Ele cria um botão "Selecionar Arquivo" e uma barra de progresso que serão usados posteriormente.
         """
-        self.setWindowTitle(self.title)
-        self.setGeometry(self.left, self.top, self.width, self.height)
+        
+    
+        css_style_red: str = """
+            QPushButton {
+                color: #FFFFFF;
+                font: 12pt Roboto;
+                font-weight: bold;
+                background-color: #FF0000;
+                border-radius: 5px;
+                border: 2 solid black;
+                padding: 10 10;
+            }
+        """
+
+        css_style_image: str = """
+            QPushButton {
+                color: #FFFFFF;
+                font: 12pt Roboto;
+                font-weight: bold;
+                background-color: darkblue;
+                border-radius: 5px;
+                border: 2 solid black;
+                padding: 10 10;
+            }
+        """
+
+        select_image = QPushButton("Selecionar Arquivo", self)
+        select_image.setToolTip("Clique para selecionar um arquivo")
+        select_image.setStyleSheet(css_style_image)
+        select_image.setGeometry(50, 50, 200, 50)
+        select_image.clicked.connect(self.OpenFileDialog)
+
+        self.label2 = QLabel(self)
+        self.label2.setGeometry(50, 110, 500, 30)
+        self.label2.setStyleSheet('color: #FFFFFF; font-size: 10px')
+
+        button_apply = QPushButton("Aplicar detecção", self)
+        button_apply.setGeometry(50, 150, 200, 50)
+        button_apply.setStyleSheet(css_style_red)
+        button_apply.clicked.connect(self.apply)
 
         self.step = 0
         self.progress = QProgressBar(self)
-        self.progress.setGeometry(200, 250, 250, 20)
+        self.progress.setGeometry(50, 230, 230, 20)
+        
+        self.label = QLabel(self)
+        self.label.setStyleSheet('color: black; font-size: 16px')
+        self.label.setStyleSheet('color: #FFFFFF')
+        self.label.setGeometry(50, 260, 500, 30)
 
-        button = QPushButton("Selecionar Arquivo", self)
-
-        button.setToolTip("Clique para selecionar um arquivo")
-        button.move(200, 150)
-        button.clicked.connect(self.OpenFileDialog)
-
-        self.pixmap = QPixmap('fogo.jpeg')
-        self.label2 = QLabel('                                                        ', self)
-        self.label2.setStyleSheet('color: blue; font-size: 12px')
-        self.label2.move(200, 180)
-
-        self.label = QLabel('                                               ', self)
-        self.label.setStyleSheet('color: green; font-size: 16px')
-        self.label.move(200, 300)
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
 
         self.show()
 
@@ -77,6 +110,7 @@ class App(QWidget):
                     i += 1
                 else:
                     break
+
 
         print(
             f'Os arquivos {input_filename}.* foram juntados em {output_filename}')
@@ -103,7 +137,8 @@ class App(QWidget):
         """
             O método `setLabel()` define o texto de uma label da interface gráfica como "Imagem detectada com sucesso".
         """
-        self.label.setText("Imagem detectada com sucesso")
+        self.label.setText("Resultado salvo em yolov5/runs/detect/exp")
+
 
     def OpenFileDialog(self):
         """
@@ -111,25 +146,45 @@ class App(QWidget):
         """
         self.join_files("../yolov5/best.pt", "../yolov5/best.pt")
 
-        filename, _ = QFileDialog.getOpenFileName(
+        self.filename, _ = QFileDialog.getOpenFileName(
             self, "Selecionar Arquivo", "", "Arquivos de Imagem (*.jpg *jpeg);;Arquivos de Vídeo (.mp4)")
+        
+        self.label2.setText(self.filename)
+        
+    def apply(self): 
+        ex.progressLoad()
+        data_folder = os.path.join("..", "yolov5", "data")
+        images_folder = os.path.join(data_folder, "images")
 
-        if filename:
-            ex.progressLoad()
-            data_folder = os.path.join("..", "yolov5", "data")
-            images_folder = os.path.join(data_folder, "images")
+        if not os.path.exists(images_folder):
+            os.makedirs(images_folder)
 
-            if not os.path.exists(images_folder):
-                os.makedirs(images_folder)
-            new_filename = os.path.join(
-                images_folder, os.path.basename(filename))
+        new_filename = os.path.join(
+            images_folder, os.path.basename(self.filename))
+        
+        # string = str(new_filename)
 
-            string = str(new_filename)
-            self.label2.setText(string)
+        shutil.copy2(self.filename, new_filename)
+        ex.progressLoad()
+        print(f"Cópia do arquivo salvo em {new_filename}") 
 
-            shutil.copy2(filename, new_filename)
-            ex.progressLoad()
-            print(f"Cópia do arquivo salvo em {new_filename}")
+
+        # if filename:
+        #     ex.progressLoad()
+        #     data_folder = os.path.join("..", "yolov5", "data")
+        #     images_folder = os.path.join(data_folder, "images")
+
+        #     if not os.path.exists(images_folder):
+        #         os.makedirs(images_folder)
+        #     new_filename = os.path.join(
+        #         images_folder, os.path.basename(filename))
+
+        #     string = str(new_filename)
+        #     self.label2.setText(string)
+
+        #     shutil.copy2(filename, new_filename)
+        #     ex.progressLoad()
+        #     print(f"Cópia do arquivo salvo em {new_filename}")
 
         try:
             # Muda de diretório
